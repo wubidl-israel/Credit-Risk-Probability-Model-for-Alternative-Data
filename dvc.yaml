@@ -1,0 +1,21 @@
+stages:
+  preprocess:
+    cmd: python3 scripts/model_preprocess.py --input data/raw/data.csv --output data/Preprocessed/RFMS.csv
+    deps:
+      - scripts/model_preprocess.py
+      - data/raw/data.csv
+    outs:
+      - data/Preprocessed/RFMS.csv
+  train:
+    cmd: python3 scripts/model_train.py --input data/Preprocessed/RFMS.csv 
+    deps:
+      - scripts/model_train.py
+      - data/Preprocessed/RFMS.csv
+  evaluate:
+    cmd: python3 scripts/model_evaluate.py --input data/Preprocessed/RFMS.csv  --model model.pkl --output metrics.json
+    deps:
+      - scripts/model_evaluate.py
+      - data/Preprocessed/RFMS.csv
+      - model.pkl
+    outs:
+      - metrics.json

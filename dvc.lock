@@ -1,0 +1,50 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python3 scripts/model_preprocess.py --input data/raw/data.csv --output data/Preprocessed/RFMS.csv
+    deps:
+    - path: data/raw/data.csv
+      hash: md5
+      md5: dad36a7d3311594f756903e886a0b191
+      size: 17071505
+    - path: scripts/model_preprocess.py
+      hash: md5
+      md5: 5671b82c7fd0e4689829705efadd4cd9
+      size: 3359
+    outs:
+    - path: data/Preprocessed/RFMS.csv
+      hash: md5
+      md5: 37264e1459f8e9f509933f3e99c8deb3
+      size: 488141
+  train:
+    cmd: python3 scripts/model_train.py --input data/Preprocessed/RFMS.csv
+    deps:
+    - path: data/Preprocessed/RFMS.csv
+      hash: md5
+      md5: 37264e1459f8e9f509933f3e99c8deb3
+      size: 488141
+    - path: scripts/model_train.py
+      hash: md5
+      md5: ae5615121479f03a8a80372c9286dea5
+      size: 1941
+  evaluate:
+    cmd: python3 scripts/model_evaluate.py --input data/Preprocessed/RFMS.csv  --model
+      model.pkl --output metrics.json
+    deps:
+    - path: data/Preprocessed/RFMS.csv
+      hash: md5
+      md5: 37264e1459f8e9f509933f3e99c8deb3
+      size: 488141
+    - path: model.pkl
+      hash: md5
+      md5: 8bf98131ec0e9775bb754d330d1af542
+      size: 65833
+    - path: scripts/model_evaluate.py
+      hash: md5
+      md5: d7869d2dde235692b25a29cf899f7c12
+      size: 1300
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: baa35b600295c5370152ca1d262831da
+      size: 50
